@@ -7,37 +7,59 @@
   <meta name="description" content="One command. Production-ready projects. TypeScript, React, Python, Go, Rust, Java — with CI, linting, testing, Docker, and docs included.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #030305;
-      --bg-elev: #0a0a0f;
+      --bg: #0a0a0f;
+      --bg-elev: #0f0f18;
+      --bg-card: #14141f;
       --fg: #e8e8ed;
-      --fg-dim: #6a6a7a;
-      --fg-dim2: #4a4a5a;
+      --fg-dim: #7a7a8a;
+      --fg-dim2: #5a5a6a;
       --accent: #00ffc8;
       --accent-dim: rgba(0, 255, 200, 0.08);
       --accent-glow: rgba(0, 255, 200, 0.35);
-      --card: #0d0d14;
-      --card-border: #1a1a28;
+      --accent-soft: rgba(0, 255, 200, 0.15);
+      --indigo: #6366f1;
+      --indigo-dim: rgba(99, 102, 241, 0.08);
+      --indigo-glow: rgba(99, 102, 241, 0.3);
+      --amber: #ffd060;
+      --amber-dim: rgba(255, 208, 96, 0.08);
+      --coral: #ff6b6b;
+      --coral-dim: rgba(255, 107, 107, 0.08);
+      --teal: #2dd4bf;
+      --teal-dim: rgba(45, 212, 191, 0.08);
       --border: #1e1e2e;
-      --danger: #ff3366;
-      --warn: #ffcc00;
+      --border-strong: #2a2a3e;
+      --card: #14141f;
+      --card-border: #1e1e2e;
     }
 
     @media (prefers-color-scheme: light) {
       :root {
-        --bg: #fafafa;
+        --bg: #f8f8fb;
         --bg-elev: #ffffff;
+        --bg-card: #ffffff;
         --fg: #0d0d14;
-        --fg-dim: #6a6a7a;
-        --fg-dim2: #8a8a9a;
+        --fg-dim: #5a5a6a;
+        --fg-dim2: #7a7a8a;
         --accent: #00b88a;
         --accent-dim: rgba(0, 184, 138, 0.1);
         --accent-glow: rgba(0, 184, 138, 0.25);
+        --accent-soft: rgba(0, 184, 138, 0.12);
+        --indigo: #4f46e5;
+        --indigo-dim: rgba(79, 70, 229, 0.1);
+        --indigo-glow: rgba(79, 70, 229, 0.2);
+        --amber: #d9a441;
+        --amber-dim: rgba(217, 164, 65, 0.1);
+        --coral: #d94a4a;
+        --coral-dim: rgba(217, 74, 74, 0.1);
+        --teal: #0d9488;
+        --teal-dim: rgba(13, 148, 136, 0.1);
+        --border: #e0e0e8;
+        --border-strong: #d0d0dc;
         --card: #ffffff;
         --card-border: #e8e8ee;
-        --border: #e0e0e8;
       }
     }
 
@@ -55,19 +77,17 @@
     }
 
     body {
-      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-family: 'Outfit', system-ui, sans-serif;
       background: var(--bg);
       color: var(--fg);
-      line-height: 1.65;
+      line-height: 1.7;
       min-height: 100vh;
       font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     }
 
-    /* Mono utility */
     .mono { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; }
-    .mono-ui { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; font-size: 0.8rem; }
+    .mono-ui { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; font-size: 0.75rem; }
 
-    /* Layout */
     .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
 
     /* Header */
@@ -75,8 +95,8 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 18px 28px;
-      background: linear-gradient(180deg, var(--bg) 0%, rgba(3,3,5,0) 100%);
+      padding: 16px 28px;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(10,10,15,0) 100%);
       border-bottom: 1px solid transparent;
       transition: border-color 0.3s, background 0.3s;
     }
@@ -120,14 +140,14 @@
 
     .brand-version {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 500;
       color: var(--accent);
       background: var(--accent-dim);
       padding: 2px 6px;
-      border-radius: 4px;
+      border-radius: 3px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
     }
 
     nav.desktop {
@@ -138,7 +158,7 @@
     nav.desktop a {
       color: var(--fg-dim);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.01em;
       position: relative;
@@ -171,9 +191,9 @@
       gap: 8px;
       padding: 10px 20px;
       border-radius: 6px;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-decoration: none;
       border: 1px solid transparent;
       cursor: pointer;
@@ -183,7 +203,7 @@
 
     .btn-primary {
       background: var(--accent);
-      color: #030305;
+      color: #0a0a0f;
       border-color: var(--accent);
       box-shadow: 0 2px 16px var(--accent-glow);
     }
@@ -242,7 +262,6 @@
       .mobile-toggle { display: none; }
     }
 
-    /* Mobile nav */
     .mobile-nav {
       position: fixed;
       top: 0; right: -100%; bottom: 0;
@@ -300,8 +319,8 @@
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 30%, var(--accent-dim) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 80% at 80% 70%, rgba(99,102,241,0.06) 0%, transparent 50%);
+        radial-gradient(ellipse 60% 40% at 15% 25%, var(--accent-dim) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 85% 75%, var(--indigo-dim) 0%, transparent 50%);
       pointer-events: none;
     }
 
@@ -325,13 +344,13 @@
       padding: 6px 12px;
       background: var(--accent-dim);
       border: 1px solid rgba(0, 255, 200, 0.2);
-      border-radius: 4px;
+      border-radius: 3px;
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 600;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       margin-bottom: 28px;
       width: fit-content;
     }
@@ -348,8 +367,8 @@
 
     .hero h1 {
       font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-      font-weight: 700;
-      line-height: 1.05;
+      font-weight: 800;
+      line-height: 1.02;
       letter-spacing: -0.04em;
       margin-bottom: 20px;
       color: var(--fg);
@@ -379,7 +398,7 @@
     }
 
     .term-wrap {
-      background: #020204;
+      background: #05050a;
       border: 1px solid var(--card-border);
       border-radius: 8px;
       overflow: hidden;
@@ -403,23 +422,24 @@
       border-radius: 50%;
       background: #2a2a3a;
     }
-    .term-dots span:nth-child(1) { background: #ff5f57; }
-    .term-dots span:nth-child(2) { background: #febc2e; }
-    .term-dots span:nth-child(3) { background: #28ca42; }
+    .term-dots span:nth-child(1) { background: var(--coral); }
+    .term-dots span:nth-child(2) { background: var(--amber); }
+    .term-dots span:nth-child(3) { background: var(--teal); }
 
     .term-title {
       margin-left: 10px;
       font-family: 'Geist Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--fg-dim2);
     }
 
     .term-body {
       padding: 20px;
       font-family: 'Geist Mono', monospace;
-      font-size: 0.8rem;
-      line-height: 1.75;
+      font-size: 0.75rem;
+      line-height: 1.8;
       overflow-x: auto;
+      min-height: 380px;
     }
 
     .term-line { display: flex; gap: 10px; margin-bottom: 6px; }
@@ -428,9 +448,10 @@
     .term-cmd { color: #a8a8b8; white-space: nowrap; }
     .term-cmd strong { color: var(--fg); }
     .term-out { color: var(--fg-dim); white-space: pre-wrap; }
-    .term-out.success { color: var(--accent); }
-    .term-out.warn { color: var(--warn); }
-    .term-out.err { color: var(--danger); }
+    .term-out.success { color: var(--teal); }
+    .term-out.warn { color: var(--amber); }
+    .term-out.err { color: var(--coral); }
+    .term-out.info { color: var(--indigo); }
 
     .cursor {
       display: inline-block;
@@ -470,42 +491,40 @@
 
     .stat-label {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--fg-dim2);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
     }
 
     /* Sections */
     section { padding: 100px 0; position: relative; }
 
-    .section-head {
-      margin-bottom: 56px;
-    }
+    .section-head { margin-bottom: 56px; }
 
     .section-tag {
       display: inline-block;
       font-family: 'Geist Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       font-weight: 600;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       margin-bottom: 14px;
       padding: 4px 10px;
       background: var(--accent-dim);
       border: 1px solid rgba(0, 255, 200, 0.15);
-      border-radius: 4px;
+      border-radius: 3px;
     }
 
     .section-head h2 {
       font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--fg);
     }
 
-    /* Features - dense grid */
+    /* Features - module grid */
     .features {
       background: var(--bg-elev);
       border-top: 1px solid var(--border);
@@ -514,40 +533,48 @@
 
     .feat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 16px;
     }
 
-    .feat-card {
+    .feat-module {
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 24px;
+      padding: 28px;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
       position: relative;
     }
 
-    .feat-card::before {
+    .feat-module::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), #6366f1);
+      background: linear-gradient(90deg, var(--accent), var(--indigo));
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.3s;
     }
 
-    .feat-card:hover {
+    .feat-module:hover {
       border-color: rgba(0, 255, 200, 0.3);
       transform: translateY(-2px);
       box-shadow: 0 12px 40px -12px rgba(0,0,0,0.4);
     }
 
-    .feat-card:hover::before { transform: scaleX(1); }
+    .feat-module:hover::before { transform: scaleX(1); }
+
+    .feat-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
 
     .feat-icon {
-      width: 36px; height: 36px;
+      width: 40px; height: 40px;
       background: var(--accent-dim);
       border: 1px solid rgba(0, 255, 200, 0.15);
       border-radius: 8px;
@@ -555,32 +582,51 @@
       align-items: center;
       justify-content: center;
       color: var(--accent);
-      margin-bottom: 16px;
+      flex-shrink: 0;
     }
 
-    .feat-card h3 {
-      font-size: 0.95rem;
+    .feat-module[data-module="ci"] .feat-icon { background: var(--indigo-dim); border-color: rgba(99,102,241,0.15); color: var(--indigo); }
+    .feat-module[data-module="lang"] .feat-icon { background: var(--amber-dim); border-color: rgba(255,208,96,0.15); color: var(--amber); }
+    .feat-module[data-module="telemetry"] .feat-icon { background: var(--teal-dim); border-color: rgba(45,212,191,0.15); color: var(--teal); }
+    .feat-module[data-module="team"] .feat-icon { background: var(--coral-dim); border-color: rgba(255,107,107,0.15); color: var(--coral); }
+    .feat-module[data-module="extensible"] .feat-icon { background: var(--accent-dim); border-color: rgba(0,255,200,0.15); color: var(--accent); }
+
+    .feat-module h3 {
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: var(--fg);
     }
 
-    .feat-card p {
+    .feat-module p {
       font-size: 0.8rem;
       color: var(--fg-dim);
       line-height: 1.65;
     }
 
-    .feat-card code {
+    .feat-module code {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       background: var(--bg);
       padding: 1px 6px;
       border-radius: 3px;
       color: var(--accent);
     }
 
+    .feat-module .feat-detail {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.72rem;
+      color: var(--fg-dim2);
+      font-family: 'Geist Mono', monospace;
+    }
+
     /* Templates */
+    .templates {
+      background: var(--bg);
+    }
+
     .templates-head {
       display: flex;
       flex-wrap: wrap;
@@ -592,7 +638,7 @@
 
     .tmpl-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 16px;
     }
 
@@ -620,7 +666,7 @@
     }
 
     .tmpl-logo {
-      width: 44px; height: 44px;
+      width: 48px; height: 48px;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -643,7 +689,7 @@
 
     .tag {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 500;
       color: var(--fg-dim);
       background: var(--bg);
@@ -663,14 +709,14 @@
       gap: 8px;
     }
 
-    .tmpl-foot .btn { flex: 1; justify-content: center; font-size: 0.78rem; padding: 8px 12px; }
+    .tmpl-foot .btn { flex: 1; justify-content: center; font-size: 0.75rem; padding: 8px 12px; }
 
     /* Install methods */
     .install { background: var(--bg-elev); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
     .install-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
     }
 
@@ -689,7 +735,7 @@
     }
 
     .inst-icon {
-      width: 36px; height: 36px;
+      width: 40px; height: 40px;
       background: var(--accent-dim);
       border: 1px solid rgba(0, 255, 200, 0.15);
       border-radius: 8px;
@@ -699,28 +745,32 @@
       color: var(--accent);
     }
 
+    .inst-card[data-method="homebrew"] .inst-icon { background: var(--amber-dim); border-color: rgba(255,208,96,0.15); color: var(--amber); }
+    .inst-card[data-method="cargo"] .inst-icon { background: var(--coral-dim); border-color: rgba(255,107,107,0.15); color: var(--coral); }
+    .inst-card[data-method="binary"] .inst-icon { background: var(--indigo-dim); border-color: rgba(99,102,241,0.15); color: var(--indigo); }
+
     .inst-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
     .inst-card p { font-size: 0.78rem; color: var(--fg-dim); margin-bottom: 16px; }
 
     .code-block {
-      background: #020204;
+      background: #05050a;
       border: 1px solid var(--card-border);
       border-radius: 6px;
       padding: 14px;
       font-family: 'Geist Mono', monospace;
-      font-size: 0.72rem;
-      line-height: 1.7;
+      font-size: 0.68rem;
+      line-height: 1.8;
       overflow-x: auto;
     }
 
     .code-block .c { color: var(--fg-dim2); }
     .code-block .cmd { color: var(--accent); }
     .code-block .arg { color: #a8a8b8; }
-    .code-block .str { color: #4ade80; }
+    .code-block .str { color: var(--teal); }
 
     /* Changelog / Updates */
     .updates {
-      background: #020204;
+      background: #05050a;
       border-top: 1px solid var(--border);
     }
 
@@ -753,6 +803,12 @@
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
+    .update-item.planned .update-dot {
+      background: var(--fg-dim2);
+      box-shadow: none;
+      opacity: 0.4;
+    }
+
     .update-content { flex: 1; }
     .update-meta {
       display: flex;
@@ -763,7 +819,7 @@
 
     .update-ver {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--accent);
       background: var(--accent-dim);
@@ -771,9 +827,15 @@
       border-radius: 3px;
     }
 
+    .update-item.planned .update-ver {
+      color: var(--fg-dim2);
+      background: var(--bg);
+      opacity: 0.5;
+    }
+
     .update-date {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--fg-dim2);
     }
 
@@ -782,7 +844,7 @@
 
     /* Footer CTA */
     .footer-cta {
-      background: linear-gradient(180deg, var(--bg) 0%, #020204 100%);
+      background: linear-gradient(180deg, var(--bg) 0%, #05050a 100%);
       border-top: 1px solid var(--border);
       padding: 80px 0;
       text-align: center;
@@ -790,7 +852,7 @@
 
     .footer-cta h2 {
       font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 12px;
     }
@@ -827,11 +889,11 @@
 
     .foot-col h4 {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       font-weight: 600;
       color: var(--fg-dim2);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       margin-bottom: 16px;
     }
 
@@ -848,7 +910,7 @@
       padding-top: 24px;
       border-top: 1px solid var(--border);
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--fg-dim2);
     }
 
@@ -867,6 +929,25 @@
 
     /* Focus visible */
     a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+    /* Module tag in feature cards */
+    .feat-tag {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 2px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(0, 255, 200, 0.15);
+    }
+    .feat-module[data-module="ci"] .feat-tag { background: var(--indigo-dim); color: var(--indigo); border-color: rgba(99,102,241,0.15); }
+    .feat-module[data-module="lang"] .feat-tag { background: var(--amber-dim); color: var(--amber); border-color: rgba(255,208,96,0.15); }
+    .feat-module[data-module="telemetry"] .feat-tag { background: var(--teal-dim); color: var(--teal); border-color: rgba(45,212,191,0.15); }
+    .feat-module[data-module="team"] .feat-tag { background: var(--coral-dim); color: var(--coral); border-color: rgba(255,107,107,0.15); }
+    .feat-module[data-module="extensible"] .feat-tag { background: var(--accent-dim); color: var(--accent); border-color: rgba(0,255,200,0.15); }
   </style>
 </head>
 <body>
@@ -920,7 +1001,7 @@
 
             <div class="stats mono">
               <div class="stat">
-                <span class="stat-val" data-count="6">0</span>
+                <span class="stat-val" data-count="8">0</span>
                 <span class="stat-label">Templates</span>
               </div>
               <div class="stat">
@@ -958,41 +1039,95 @@
           <h2 id="features-title">Everything configured. Nothing assumed.</h2>
         </div>
         <div class="feat-grid">
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+          <article class="feat-module reveal" data-module="setup">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+              <span class="feat-tag mono">module:setup</span>
+            </div>
             <h3>Zero-config defaults</h3>
             <p>ESLint, Prettier, TypeScript, Jest, Husky, lint-staged — all pre-configured with sensible rules. <code>npm run dev</code> just works.</p>
+            <div class="feat-detail mono">
+              ├── .eslintrc.json<br>
+              ├── .prettierrc<br>
+              ├── tsconfig.json<br>
+              ├── jest.config.js<br>
+              └── .husky/pre-commit
+            </div>
           </article>
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg></div>
+
+          <article class="feat-module reveal" data-module="ci">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg></div>
+              <span class="feat-tag mono">module:ci</span>
+            </div>
             <h3>CI/CD included</h3>
             <p>GitHub Actions workflows for test, lint, typecheck, build, and Docker publish. Matrix testing across Node/Python/Go versions.</p>
+            <div class="feat-detail mono">
+              ├── .github/workflows/test.yml<br>
+              ├── .github/workflows/lint.yml<br>
+              ├── .github/workflows/build.yml<br>
+              └── .github/workflows/docker.yml
+            </div>
           </article>
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+
+          <article class="feat-module reveal" data-module="lang">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+              <span class="feat-tag mono">module:lang</span>
+            </div>
             <h3>Multi-language, idiomatic</h3>
             <p>Templates follow each ecosystem's conventions: <code>pyproject.toml</code>, <code>go.mod</code>, <code>Cargo.toml</code>, <code>pom.xml</code> — not lowest-common-denominator configs.</p>
+            <div class="feat-detail mono">
+              ├── typescript/ (node)<br>
+              ├── python-fastapi/ (pip/poetry)<br>
+              ├── go-microservice/ (go modules)<br>
+              ├── rust-cli/ (cargo)<br>
+              └── java-spring/ (maven)
+            </div>
           </article>
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+
+          <article class="feat-module reveal" data-module="telemetry">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+              <span class="feat-tag mono">module:telemetry</span>
+            </div>
             <h3>No telemetry. Ever.</h3>
             <p>Runs 100% offline. No analytics, no phone-home, no account required. Your projects, your machine, your business.</p>
+            <div class="feat-detail mono">
+              └── analytics: false
+            </div>
           </article>
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+
+          <article class="feat-module reveal" data-module="team">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+              <span class="feat-tag mono">module:team</span>
+            </div>
             <h3>Team templates (soon)</h3>
             <p>Private template registry for your org. Enforce standards, cut onboarding from days to minutes. <code>setupkaro init --team</code>.</p>
+            <div class="feat-detail mono">
+              └── registry: private
+            </div>
           </article>
-          <article class="feat-card reveal">
-            <div class="feat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+
+          <article class="feat-module reveal" data-module="extensible">
+            <div class="feat-header">
+              <div class="feat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+              <span class="feat-tag mono">module:ext</span>
+            </div>
             <h3>Extensible schema</h3>
             <p>Templates are JSON + file trees. Write your own, publish to the marketplace, or keep them private. <code>setupkaro template create</code>.</p>
+            <div class="feat-detail mono">
+              ├── template.json (schema)<br>
+              ├── files/ (tree)<br>
+              └── hooks/ (optional)
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="templates" aria-labelledby="templates-title">
+    <section id="templates" class="templates" aria-labelledby="templates-title">
       <div class="wrap">
         <div class="templates-head">
           <div class="section-head reveal">
@@ -1167,7 +1302,7 @@
         <div class="install-grid">
           <article class="inst-card reveal">
             <div class="inst-head">
-              <div class="inst-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
+              <div class="inst-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
               <div>
                 <h3>npx (recommended)</h3>
                 <p>Zero install. Always latest.</p>
@@ -1182,9 +1317,9 @@
             </div>
           </article>
 
-          <article class="inst-card reveal">
+          <article class="inst-card reveal" data-method="homebrew">
             <div class="inst-head">
-              <div class="inst-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+              <div class="inst-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
               <div>
                 <h3>Homebrew (macOS)</h3>
                 <p>Native package management.</p>
@@ -1196,9 +1331,9 @@
             </div>
           </article>
 
-          <article class="inst-card reveal">
+          <article class="inst-card reveal" data-method="cargo">
             <div class="inst-head">
-              <div class="inst-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></div>
+              <div class="inst-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></div>
               <div>
                 <h3>Cargo (Rust binary)</h3>
                 <p>Fastest startup. Single binary.</p>
@@ -1209,9 +1344,9 @@
             </div>
           </article>
 
-          <article class="inst-card reveal">
+          <article class="inst-card reveal" data-method="binary">
             <div class="inst-head">
-              <div class="inst-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg></div>
+              <div class="inst-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg></div>
               <div>
                 <h3>Standalone binary</h3>
                 <p>Linux / macOS / Windows. No runtime.</p>
@@ -1247,22 +1382,22 @@
               <p class="update-desc">CLI scaffold with 8 templates, GitHub Actions CI, Docker configs, linting, testing, and zero-telemetry guarantee.</p>
             </div>
           </article>
-          <article class="update-item reveal">
-            <div class="update-dot" aria-hidden="true" style="opacity: 0.3;"></div>
+          <article class="update-item reveal planned">
+            <div class="update-dot" aria-hidden="true"></div>
             <div class="update-content">
               <div class="update-meta">
-                <span class="update-ver mono" style="opacity: 0.5;">v0.2.0</span>
+                <span class="update-ver mono">v0.2.0</span>
                 <time class="update-date mono">Q1 2025</time>
               </div>
               <h3 class="update-title">Template marketplace (planned)</h3>
               <p class="update-desc">Community templates, ratings, categories. <code>setupkaro template publish</code> and <code>setupkaro search</code> commands.</p>
             </div>
           </article>
-          <article class="update-item reveal">
-            <div class="update-dot" aria-hidden="true" style="opacity: 0.3;"></div>
+          <article class="update-item reveal planned">
+            <div class="update-dot" aria-hidden="true"></div>
             <div class="update-content">
               <div class="update-meta">
-                <span class="update-ver mono" style="opacity: 0.5;">v0.3.0</span>
+                <span class="update-ver mono">v0.3.0</span>
                 <time class="update-date mono">Q2 2025</time>
               </div>
               <h3 class="update-title">Team workspaces (planned)</h3>
