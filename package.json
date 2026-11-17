@@ -1,0 +1,35 @@
+{
+  "name": "setupkaro",
+  "version": "0.1.0",
+  "description": "Instantly bootstrap developer projects with sensible defaults, templates, and configurations.",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "setupkaro": "bin/setupkaro.js"
+  },
+  "scripts": {
+    "dev": "node bin/setupkaro.js",
+    "start": "node bin/setupkaro.js"
+  },
+  "keywords": [
+    "cli",
+    "scaffold",
+    "template",
+    "boilerplate",
+    "generator",
+    "project",
+    "setup",
+    "devtools"
+  ],
+  "author": "setupkaro",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ]
+}

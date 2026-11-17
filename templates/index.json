@@ -1,0 +1,32 @@
+[
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "description": "Node.js + TypeScript with ESLint, Prettier, and Jest"
+  },
+  {
+    "id": "react-ts",
+    "name": "React + TypeScript",
+    "description": "Vite + React + TS with Tailwind and React Router"
+  },
+  {
+    "id": "python-fastapi",
+    "name": "Python FastAPI",
+    "description": "FastAPI with SQLAlchemy, pytest, Docker, and GitHub Actions"
+  },
+  {
+    "id": "go-microservice",
+    "name": "Go Microservice",
+    "description": "Go with Gin, gRPC, testing, and Docker"
+  },
+  {
+    "id": "rust-cli",
+    "name": "Rust CLI",
+    "description": "Rust CLI with clap, testing, and CI"
+  },
+  {
+    "id": "java-spring",
+    "name": "Java Spring Boot",
+    "description": "Spring Boot with Maven, testing, and Docker"
+  }
+]

@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>setupkaro — Instantly Bootstrap Developer Projects</title>
+  <meta name="description" content="One command to generate production-ready projects. TypeScript, React, Python, Go, Rust, Java — with CI, linting, testing, Docker, and docs included.">
+  <meta property="og:title" content="setupkaro — Instantly Bootstrap Developer Projects">
+  <meta property="og:description" content="One command to generate production-ready projects. TypeScript, React, Python, Go, Rust, Java — with CI, linting, testing, Docker, and docs included.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://setupkaro.in/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #11111a;
+      --fg: #f0f0f5;
+      --fg-muted: #888899;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --accent-glow: rgba(0, 212, 170, 0.4);
+      --card: #16161f;
+      --card-border: #2a2a3a;
+      --glass: rgba(22, 22, 31, 0.7);
+      --glass-border: rgba(42, 42, 58, 0.5);
+      --danger: #ff4757;
+      --warning: #ffa502;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fafafa;
+        --bg-elevated: #ffffff;
+        --fg: #1a1a2e;
+        --fg-muted: #6b6b7b;
+        --accent: #00b894;
+        --accent-dim: rgba(0, 184, 148, 0.12);
+        --accent-glow: rgba(0, 184, 148, 0.3);
+        --card: #ffffff;
+        --card-border: #e0e0ea;
+        --glass: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(224, 224, 234, 0.6);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background atmosphere */
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -200px; animation-delay: 0s; }
+    .orb-2 { width: 400px; height: 400px; background: #6366f1; bottom: -150px; left: -150px; animation-delay: -7s; }
+    .orb-3 { width: 300px; height: 300px; background: #f43f5e; top: 40%; left: 10%; animation-delay: -14s; }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -20px) scale(1.05); }
+      50% { transform: translate(-20px, 30px) scale(0.95); }
+      75% { transform: translate(15px, 25px) scale(1.02); }
+    }
+
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+    }
+
+    @media (prefers-color-scheme: light) {
+      nav.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,0.08); }
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--fg);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0a0a0f;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--fg-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--fg); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--card);
+      border-color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      border: none;
+      padding: 8px 16px;
+    }
+
+    .btn-ghost:hover { color: var(--fg); }
+
+    .mobile-menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .mobile-menu-btn { display: none; }
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 0 80px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 32px;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      animation: slideUp 0.8s ease-out 0.1s both;
+    }
+
+    .hero h1 .accent { color: var(--accent); }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: var(--fg-muted);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      animation: slideUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: slideUp 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Terminal Hero */
+    .terminal-demo {
+      margin-top: 60px;
+      animation: slideUp 0.8s ease-out 0.4s both;
+    }
+
+    .terminal {
+      background: #0d0d14;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.02),
+        0 20px 60px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+      position: relative;
+    }
+
+    .terminal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .traffic-lights { display: flex; gap: 6px; }
+    .traffic-lights span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #333;
+    }
+    .traffic-lights span:nth-child(1) { background: #ff5f57; box-shadow: 0 0 8px #ff5f5780; }
+    .traffic-lights span:nth-child(2) { background: #febc2e; box-shadow: 0 0 8px #febc2e80; }
+    .traffic-lights span:nth-child(3) { background: #28ca42; box-shadow: 0 0 8px #28ca4280; }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+
+    .terminal-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .term-line { display: flex; gap: 12px; margin-bottom: 8px; }
+    .term-line:last-child { margin-bottom: 0; }
+    .prompt { color: var(--accent); font-weight: 600; white-space: nowrap; }
+    .command { color: var(--fg); white-space: nowrap; }
+    .output { color: var(--fg-muted); white-space: pre-wrap; word-break: break-word; }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2em;
+      background: var(--accent);
+      margin-left: 4px;
+      animation: blink 1s ease-in-out infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* Features */
+    .features {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #6366f1);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .feature-card:hover::before { transform: scaleX(1); }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Templates */
+    .templates {
+      padding: 100px 0;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .template-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .template-card:hover::before { opacity: 1; }
+
+    .template-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .template-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #0a0a0f;
+    }
+
+    .template-info { flex: 1; }
+    .template-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .template-info p { font-size: 0.85rem; color: var(--fg-muted); }
+
+    .template-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      padding: 5px 12px;
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .template-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .template-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Install */
+    .install {
+      padding: 100px 0;
+    }
+
+    .install-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .method-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+    }
+
+    .method-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .method-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .method-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+    .method-card p { color: var(--fg-muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+    .code-block {
+      background: #0d0d14;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .code-block .comment { color: #6a7a8a; }
+    .code-block .cmd { color: var(--accent); }
+    .code-block .arg { color: #c0d0e0; }
+
+    /* CTA */
+    .cta {
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, var(--accent-dim) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+
+    .cta h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 16px; }
+    .cta p { color: var(--fg-muted); font-size: 1.1rem; margin-bottom: 32px; }
+
+    /* Footer */
+    footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p { color: var(--fg-muted); font-size: 0.9rem; margin-top: 16px; max-width: 280px; }
+
+    .footer-col h4 { font-size: 0.85rem; font-weight: 600; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: var(--fg); text-decoration: none; font-size: 0.9rem; transition: color 0.2s ease; }
+    .footer-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 30px;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+    }
+
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--fg-muted); text-decoration: none; transition: color 0.2s ease; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .orb { animation: none; }
+      .cursor { animation: none; opacity: 1; }
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      position: fixed;
+      top: 0; right: -100%; bottom: 0;
+      width: 280px;
+      background: var(--bg-elevated);
+      border-left: 1px solid var(--card-border);
+      z-index: 200;
+      padding: 80px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: right 0.3s ease;
+    }
+
+    .mobile-nav.open { right: 0; }
+    .mobile-nav a { color: var(--fg); text-decoration: none; font-size: 1.1rem; font-weight: 500; }
+    .mobile-nav .btn { width: 100%; justify-content: center; }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 150;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .mobile-overlay.open { opacity: 1; visibility: visible; }
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="logo" aria-label="setupkaro home">
+        <span class="logo-mark">SK</span>
+        setupkaro
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#templates">Templates</a></li>
+        <li><a href="#install">Install</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="https://github.com/iamRooney/progen" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+        <a href="#install" class="btn btn-primary">Get Started</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+  <div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#features">Features</a>
+    <a href="#templates">Templates</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/iamRooney/progen" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+    <a href="#install" class="btn btn-primary">Get Started</a>
+  </div>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">v0.1.0 · Open Source · MIT License</div>
+          <h1 id="hero-title">Bootstrap projects in <span class="accent">seconds</span>, not hours</h1>
+          <p>One command generates production-ready projects with CI, linting, testing, Docker, and documentation. TypeScript, React, Python, Go, Rust, Java — and more.</p>
+          <div class="hero-cta">
+            <a href="#install" class="btn btn-primary">Install setupkaro</a>
+            <a href="#templates" class="btn btn-secondary">Browse Templates</a>
+          </div>
+        </div>
+
+        <div class="terminal-demo">
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="traffic-lights"><span></span><span></span><span></span></div>
+              <span class="terminal-title">setupkaro init my-app --template react-ts</span>
+            </div>
+            <div class="terminal-body" id="terminalOutput"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Why setupkaro</span>
+          <h2 id="features-title">Everything you need. Nothing you don't.</h2>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3>One Command</h3>
+            <p>Run <code>setupkaro init</code> and get a complete project structure instantly. No manual configuration, no copy-pasting.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+            </div>
+            <h3>Production-Ready Defaults</h3>
+            <p>ESLint, Prettier, TypeScript config, GitHub Actions CI, Dockerfile, docker-compose, Jest, README — all configured and working.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <h3>Multi-Language</h3>
+            <p>TypeScript, React, Python, Go, Rust, Java, Node.js, and more. Each template follows idiomatic best practices for its ecosystem.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3>Secure by Default</h3>
+            <p>No telemetry, no data collection, runs entirely offline. Your code never leaves your machine unless you choose to push it.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3>Team Templates</h3>
+            <p>Share private templates across your organization. Enforce standards, reduce onboarding from days to minutes.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <h3>Extensible</h3>
+            <p>Create custom templates with our simple JSON schema. Publish to the community marketplace or keep them private.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="templates" class="templates" aria-labelledby="templates-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Available Templates</span>
+          <h2 id="templates-title">Start with the right foundation</h2>
+        </div>
+        <div class="templates-grid">
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #3178c6, #007acc);">TS</div>
+              <div class="template-info">
+                <h3>TypeScript</h3>
+                <p>Node.js + TypeScript with ESLint, Prettier, and Jest</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">node</span><span class="tag">typescript</span><span class="tag">jest</span><span class="tag">eslint</span><span class="tag">prettier</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #61dafb, #1e90ff); color: #0a0a0f;">⚛</div>
+              <div class="template-info">
+                <h3>React + TypeScript</h3>
+                <p>Vite + React + TS with Tailwind and React Router</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">react</span><span class="tag">vite</span><span class="tag">tailwind</span><span class="tag">router</span><span class="tag">vitest</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #3776ab, #ffd43b); color: #0a0a0f;">🐍</div>
+              <div class="template-info">
+                <h3>Python FastAPI</h3>
+                <p>FastAPI with SQLAlchemy, pytest, Docker, and GitHub Actions</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">fastapi</span><span class="tag">sqlalchemy</span><span class="tag">pytest</span><span class="tag">docker</span><span class="tag">ruff</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #00add8, #6cf);">Go</div>
+              <div class="template-info">
+                <h3>Go Microservice</h3>
+                <p>Go with Gin, gRPC, testing, and Docker</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">gin</span><span class="tag">grpc</span><span class="tag">wire</span><span class="tag">docker</span><span class="tag">testify</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #dea584, #f07d2e);">🦀</div>
+              <div class="template-info">
+                <h3>Rust CLI</h3>
+                <p>Rust CLI with clap, testing, and CI</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">clap</span><span class="tag">cargo</span><span class="tag">tokio</span><span class="tag">clippy</span><span class="tag">cargo-test</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+          <article class="template-card reveal">
+            <div class="template-header">
+              <div class="template-logo" style="background: linear-gradient(135deg, #6db33f, #95c754);">☕</div>
+              <div class="template-info">
+                <h3>Java Spring Boot</h3>
+                <p>Spring Boot with Maven, testing, and Docker</p>
+              </div>
+            </div>
+            <div class="template-tags">
+              <span class="tag">spring</span><span class="tag">maven</span><span class="tag">junit</span><span class="tag">docker</span><span class="tag">spotless</span>
+            </div>
+            <div class="template-footer">
+              <button class="btn btn-primary template-btn">Use Template</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install" aria-labelledby="install-title">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Installation</span>
+          <h2 id="install-title">Install in seconds</h2>
+        </div>
+        <div class="install-methods">
+          <article class="method-card reveal">
+            <div class="method-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            </div>
+            <h3>npm / npx</h3>
+            <p>Install globally or run directly with npx — no installation required.</p>
+            <div class="code-block">
+              <span class="comment"># Run instantly (recommended)</span><br>
+              <span class="cmd">npx</span> <span class="arg">setupkaro init my-app --template react-ts</span><br><br>
+              <span class="comment"># Or install globally</span><br>
+              <span class="cmd">npm</span> <span class="arg">i -g setupkaro</span>
+            </div>
+          </article>
+          <article class="method-card reveal">
+            <div class="method-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3>Homebrew (macOS)</h3>
+            <p>Install via Homebrew for easy updates and management.</p>
+            <div class="code-block">
+              <span class="cmd">brew</span> <span class="arg">tap setupkaro/brew</span><br>
+              <span class="cmd">brew</span> <span class="arg">install setupkaro</span>
+            </div>
+          </article>
+          <article class="method-card reveal">
+            <div class="method-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            </div>
+            <h3>Cargo (Rust)</h3>
+            <p>Install the native Rust binary for maximum performance.</p>
+            <div class="code-block">
+              <span class="cmd">cargo</span> <span class="arg">install setupkaro</span>
+            </div>
+          </article>
+          <article class="method-card reveal">
+            <div class="method-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+            </div>
+            <h3>Binary Release</h3>
+            <p>Download a standalone binary for Linux, macOS, or Windows — no runtime needed.</p>
+            <div class="code-block">
+              <span class="comment"># Linux</span><br>
+              <span class="cmd">curl -fsSL</span> <span class="arg">https://setupkaro.in/install.sh | sh</span><br><br>
+              <span class="comment"># Or download from GitHub Releases</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-content reveal">
+          <h2 id="cta-title">Ready to stop configuring and start coding?</h2>
+          <p>Join thousands of developers who bootstrap projects in seconds with setupkaro.</p>
+          <div class="hero-cta">
+            <a href="#install" class="btn btn-primary">Get Started Free</a>
+            <a href="https://github.com/iamRooney/progen" class="btn btn-secondary" target="_blank" rel="noopener">Star on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo" aria-label="setupkaro home">
+            <span class="logo-mark">SK</span>
+            setupkaro
+          </a>
+          <p>Built with ❤️ for the developer community. Made in India, for the world.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#templates">Templates</a></li>
+            <li><a href="#install">Installation</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Template Guide</a></li>
+            <li><a href="#">API Reference</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/iamRooney/progen" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Contributing</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 setupkaro. MIT Licensed.</span>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Terminal animation
+    const terminalLines = [
+      { prompt: '❯', cmd: 'setupkaro init my-app --template react-ts', delay: 0 },
+      { prompt: '', cmd: '✓ Template "react-ts" resolved', delay: 400 },
+      { prompt: '', cmd: '✓ Creating project structure...', delay: 800 },
+      { prompt: '', cmd: '✓ Writing package.json', delay: 1200 },
+      { prompt: '', cmd: '✓ Writing tsconfig.json', delay: 1400 },
+      { prompt: '', cmd: '✓ Writing vite.config.ts', delay: 1600 },
+      { prompt: '', cmd: '✓ Writing tailwind.config.js', delay: 1800 },
+      { prompt: '', cmd: '✓ Writing .eslintrc.json', delay: 2000 },
+      { prompt: '', cmd: '✓ Writing .prettierrc', delay: 2200 },
+      { prompt: '', cmd: '✓ Writing .github/workflows/ci.yml', delay: 2400 },
+      { prompt: '', cmd: '✓ Writing Dockerfile & docker-compose.yml', delay: 2600 },
+      { prompt: '', cmd: '✓ Writing README.md', delay: 2800 },
+      { prompt: '', cmd: '✓ Initializing git repository', delay: 3000 },
+      { prompt: '', cmd: '', delay: 3200 },
+      { prompt: '✓', cmd: ' Project ready! Next steps:', delay: 3400 },
+      { prompt: '  ', cmd: 'cd my-app && npm install && npm run dev', delay: 3600 },
+      { prompt: '', cmd: '', delay: 3800 },
+      { prompt: '❯', cmd: '', delay: 4000, cursor: true }
+    ];
+
+    const output = document.getElementById('terminalOutput');
+    let lineIndex = 0;
+
+    function typeLine(line, callback) {
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      output.appendChild(div);
+
+      const prompt = document.createElement('span');
+      prompt.className = 'prompt';
+      prompt.textContent = line.prompt + (line.prompt ? ' ' : '');
+      div.appendChild(prompt);
+
+      const cmd = document.createElement('span');
+      cmd.className = 'command';
+      div.appendChild(cmd);
+
+      let charIndex = 0;
+      const text = line.cmd;
+
+      function typeChar() {
+        if (charIndex < text.length) {
+          cmd.textContent += text[charIndex];
+          charIndex++;
+          setTimeout(typeChar, 15 + Math.random() * 30);
+        } else if (callback) {
+          callback();
+        }
+      }
+      typeChar();
+    }
+
+    function runTerminal() {
+      if (lineIndex < terminalLines.length) {
+        const line = terminalLines[lineIndex];
+        typeLine(line, () => {
+          lineIndex++;
+          setTimeout(runTerminal, line.delay || 0);
+        });
+      } else {
+        // Loop the demo
+        setTimeout(() => {
+          output.innerHTML = '';
+          lineIndex = 0;
+          runTerminal();
+        }, 5000);
+      }
+    }
+
+    // Start terminal after hero loads
+    setTimeout(runTerminal, 1000);
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    }, { passive: true });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function toggleMenu() {
+      const isOpen = mobileNav.classList.toggle('open');
+      mobileOverlay.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', isOpen);
+      mobileOverlay.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+    mobileOverlay.addEventListener('click', toggleMenu);
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', toggleMenu));
+
+    // Keyboard support for mobile menu
+    menuBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleMenu();
+      }
+    });
+
+    // Template card buttons
+    document.querySelectorAll('.template-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.template-card');
+        const name = card.querySelector('h3').textContent;
+        alert(`Template "${name}" — generation coming soon!\n\nRun: npx setupkaro init my-app --template <id>`);
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
