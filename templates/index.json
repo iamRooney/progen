@@ -28,5 +28,20 @@
     "id": "java-spring",
     "name": "Java Spring Boot",
     "description": "Spring Boot with Maven, testing, and Docker"
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "description": "Next.js 14 App Router with TS and Tailwind"
+  },
+  {
+    "id": "laravel",
+    "name": "Laravel",
+    "description": "Laravel 11 with Pest and Pint"
+  },
+  {
+    "id": "docker-compose",
+    "name": "Docker Compose",
+    "description": "Standard Postgres + Redis + Nginx stack"
   }
 ]

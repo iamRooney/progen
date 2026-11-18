@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,31 +18,50 @@ async function loadTemplates() {
   return JSON.parse(raw);
 }
 
+async function copyDir(src, dest, replacements = {}) {
+  await mkdir(dest, { recursive: true });
+  const entries = await readdir(src, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      await copyDir(srcPath, destPath, replacements);
+    } else {
+      let content = await readFile(srcPath, "utf-8");
+      for (const [key, value] of Object.entries(replacements)) {
+        content = content.replace(new RegExp(`{{${key}}}`, "g"), value);
+      }
+      await writeFile(destPath, content);
+    }
+  }
+}
+
 function printHelp() {
   console.log(`
-setupkaro — instantly bootstrap developer projects
+  setupkaro — instantly bootstrap developer projects
 
-Usage:
-  setupkaro init <name> --template <template>
-  setupkaro list
-  setupkaro --help
+  Usage:
+    setupkaro init <name> --template <template>
+    setupkaro list
+    setupkaro --help
 
-Examples:
-  setupkaro init my-app --template typescript
-  setupkaro init . --python-fastapi
-  setupkaro init my-service --go-microservice
-  setupkaro list
-`);
+  Examples:
+    setupkaro init my-app --template typescript
+    setupkaro init . --template react-ts
+    setupkaro list
+  `);
 }
 
 function printList(templates) {
-  console.log("Available templates:\n");
+  console.log("\n🚀 Available templates:\n");
   if (templates.length === 0) {
-    console.log("  (no templates yet — add one in templates/)");
+    console.log("  (no templates yet)");
     return;
   }
   for (const t of templates) {
-    console.log(`  ${t.id.padEnd(24)} ${t.description}`);
+    console.log(`  ${t.id.padEnd(20)} ${t.description}`);
   }
   console.log("\nUse: setupkaro init <name> --template <id>");
 }
@@ -62,42 +81,62 @@ async function main() {
   }
 
   if (args[0] === "init") {
-    const nameIdx = args.indexOf("--name");
-    let name = nameIdx >= 0 ? args[nameIdx + 1] : null;
-    let template = null;
+    const name = args[1];
+    if (!name || name.startsWith("-")) {
+      console.error("Error: Project name required. Use: setupkaro init <name>");
+      process.exit(1);
+    }
 
     const tIdx = args.indexOf("--template");
-    if (tIdx >= 0) template = args[tIdx + 1];
+    let templateId = tIdx >= 0 ? args[tIdx + 1] : null;
 
-    for (const arg of args) {
-      if (arg.startsWith("--") && !arg.startsWith("--name") && !arg.startsWith("--template")) {
-        template = arg.replace(/^--/, "");
+    // Fallback to legacy flag check like --typescript
+    if (!templateId) {
+      for (const arg of args) {
+        if (arg.startsWith("--")) {
+          templateId = arg.replace(/^--/, "");
+        }
       }
     }
 
-    if (!name) {
-      name = "my-app";
-    }
-
-    if (!template) {
-      console.error("Error: no template specified. Use --template <id> or a flag like --typescript");
-      console.error("Run `setupkaro list` to see available templates.");
+    if (!templateId) {
+      console.error("Error: No template specified. Use --template <id>");
       process.exit(1);
     }
 
     const templates = await loadTemplates();
-    const found = templates.find((t) => t.id === template);
+    const found = templates.find((t) => t.id === templateId);
 
     if (!found) {
-      console.error(`Error: template "${template}" not found.`);
-      console.error("Run `setupkaro list` to see available templates.");
+      console.error(`Error: Template "${templateId}" not found. Run "setupkaro list" for options.`);
       process.exit(1);
     }
 
-    console.log(`✓ Setting up "${name}" using template "${found.id}"`);
-    console.log(`  ${found.description}`);
-    console.log(`  → Run: cd ${name} && npm install && npm run dev`);
-    console.log("\nTemplate generation is coming soon. This is a placeholder.");
+    const targetDir = path.resolve(process.cwd(), name);
+    const templateDir = path.join(root, "templates", found.id);
+
+    if (existsSync(targetDir) && name !== ".") {
+      console.error(`Error: Directory "${name}" already exists.`);
+      process.exit(1);
+    }
+
+    console.log(`\n📦 Initializing project: ${name}`);
+    console.log(`📂 Using template: ${found.name}`);
+
+    try {
+      await copyDir(templateDir, targetDir, {
+        projectName: path.basename(targetDir === process.cwd() ? process.cwd() : targetDir),
+      });
+
+      console.log("\n✨ Success! Project initialized.");
+      console.log(`\nNext steps:`);
+      console.log(`  cd ${name === "." ? "" : name}`);
+      console.log(`  npm install (or equivalent)`);
+      console.log(`  npm run dev\n`);
+    } catch (err) {
+      console.error("Error creating project:", err.message);
+      process.exit(1);
+    }
     return;
   }
 
