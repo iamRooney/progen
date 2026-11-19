@@ -1,0 +1,20 @@
+[package]
+name = "{{projectName}}"
+version = "1.0.0"
+edition = "2021"
+description = "Rust CLI project bootstrapped with setupkaro"
+license = "MIT"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+anyhow = "1.0"
+tokio = { version = "1.38", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+cargo-nextest = "0.9"
+
+[profile.release]
+lto = true
+opt-level = "z"
