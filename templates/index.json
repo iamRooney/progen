@@ -43,5 +43,10 @@
     "id": "docker-compose",
     "name": "Docker Compose",
     "description": "Standard Postgres + Redis + Nginx stack"
+  },
+  {
+    "id": "php",
+    "name": "PHP",
+    "description": "PHP project with Composer dependencies"
   }
 ]
