@@ -1,0 +1,6 @@
+{
+  "name": "setupkaro-php",
+  "description": "PHP project with Composer dependencies",
+  "type": "project",
+  "require": {}
+}
