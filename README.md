@@ -114,7 +114,7 @@ Everything runs locally on your machine.
 
 ---
 
-## 💼 Plans
+<!-- ## 💼 Plans
 
 The core CLI stays free and open source. Paid tiers are planned for teams that need more.
 
@@ -125,7 +125,7 @@ The core CLI stays free and open source. Paid tiers are planned for teams that n
 | **Team** | Team collaboration, SSO, audit logs, template analytics |
 | **Enterprise** | On-premise deployment, custom compliance, dedicated support |
 
----
+--- -->
 
 ## 🤝 Contributing
 
