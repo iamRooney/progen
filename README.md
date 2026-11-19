@@ -105,4 +105,4 @@ MIT License. See `LICENSE` for details.
 
 ---
 
-*Built with ❤️ for the developer community. Made in India, for the world.*
+*Built with ❤️ for the developer community. Made in Kerala, for the world.*
