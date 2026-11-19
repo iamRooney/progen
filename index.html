@@ -736,7 +736,30 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .contributor, .contributor-avatar, .contributor-name { transition: none !important; }
   .contributor { opacity: 1; transform: none; }
+  .crown { animation: none !important; }
 }
+
+/* Crown badge for repo owner */
+.contributor-avatar-wrap { position: relative; }
+.crown {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.4));
+  animation: crownFloat 2.5s ease-in-out infinite;
+}
+.crown svg { width: 100%; height: 100%; }
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-4px) rotate(2deg); }
+}
+
+/* Ensure iamRooney appears first */
+.contributor.is-owner { order: -1; }
 
 /* ---- Fixes ---- */
 .btn-lg { padding: 14px 28px; font-size: 1rem; }
@@ -1191,8 +1214,9 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rota
           }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" })
         : null;
       function makeContributor(user, index) {
+        const isOwner = user.login === "iamRooney";
         const link = document.createElement("a");
-        link.className = "contributor";
+        link.className = "contributor" + (isOwner ? " is-owner" : "");
         link.href = user.html_url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
@@ -1210,6 +1234,12 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rota
         avatar.height = 58;
         avatar.referrerPolicy = "no-referrer";
         avatarWrap.appendChild(avatar);
+        if (isOwner) {
+          const crown = document.createElement("span");
+          crown.className = "crown";
+          crown.innerHTML = '<svg viewBox="0 0 24 24" fill="#fbbf24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>';
+          avatarWrap.appendChild(crown);
+        }
         const username = document.createElement("span");
         username.className = "contributor-name";
         username.textContent = user.login;
