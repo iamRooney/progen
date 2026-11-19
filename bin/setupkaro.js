@@ -131,8 +131,48 @@ async function main() {
       console.log("\n✨ Success! Project initialized.");
       console.log(`\nNext steps:`);
       console.log(`  cd ${name === "." ? "" : name}`);
-      console.log(`  npm install (or equivalent)`);
-      console.log(`  npm run dev\n`);
+
+      // Check if template has a package.json to read scripts
+      let hasDevScript = false;
+      let hasStartScript = false;
+      const pkgPath = path.join(targetDir, "package.json");
+      if (existsSync(pkgPath)) {
+        try {
+          const pkgData = JSON.parse(await readFile(pkgPath, "utf-8"));
+          if (pkgData.scripts) {
+            hasDevScript = !!pkgData.scripts.dev;
+            hasStartScript = !!pkgData.scripts.start;
+          }
+        } catch (e) {}
+      }
+
+      const isWebTemplate = found.id === "react-ts" || found.id === "nextjs";
+
+      if (existsSync(path.join(targetDir, "package.json"))) {
+        console.log(`  npm install`);
+      } else if (existsSync(path.join(targetDir, "requirements.txt"))) {
+        console.log(`  pip install -r requirements.txt`);
+      } else if (existsSync(path.join(targetDir, "go.mod"))) {
+        console.log(`  go mod tidy`);
+      } else if (existsSync(path.join(targetDir, "Cargo.toml"))) {
+        console.log(`  cargo build`);
+      } else if (existsSync(path.join(targetDir, "pom.xml"))) {
+        console.log(`  mvn clean install`);
+      } else if (existsSync(path.join(targetDir, "composer.json"))) {
+        console.log(`  composer install`);
+      }
+
+      if (hasDevScript) {
+        console.log(`  npm run dev`);
+        if (isWebTemplate) {
+          console.log(`  (Opens local dev server on localhost)`);
+        } else {
+          console.log(`  (Runs script / watches files)`);
+        }
+      } else if (hasStartScript) {
+        console.log(`  npm start`);
+      }
+      console.log();
     } catch (err) {
       console.error("Error creating project:", err.message);
       process.exit(1);
