@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   verification: {
-    google: 'YOUR_GOOGLE_VERIFICATION_CODE',
+    google: 'google1d78b873b18ec12f',
   },
 };
 
