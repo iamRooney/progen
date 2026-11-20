@@ -1,0 +1,64 @@
+{
+  "slug": "react-ts",
+  "name": "React + TypeScript",
+  "description": "Vite + React + TS with Tailwind and React Router",
+  "targetKeyword": "React TypeScript starter Vite Tailwind Vitest Docker CI",
+  "metaTitle": "React + TypeScript Starter — Vite, Tailwind, Vitest, Docker | setupkaro",
+  "metaDescription": "Generate a production-ready React 18 + TypeScript project with Vite, Tailwind CSS, React Router, Vitest, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "React + TypeScript Starter with Vite, Tailwind, Vitest & Docker",
+  "includes": [
+    "React 18 + TypeScript 5 (strict) with Vite 5",
+    "Tailwind CSS 3 + PostCSS + Autoprefixer",
+    "React Router 6 for client-side routing",
+    "Vitest + React Testing Library + jsdom",
+    "ESLint (typescript-eslint, react-hooks, jsx-a11y) + Prettier",
+    "Husky + lint-staged for pre-commit hooks",
+    "GitHub Actions: typecheck, lint, test, build",
+    "Multi-stage Dockerfile (nginx static serving) + docker-compose",
+    "Generated README with scripts, folder structure, deployment"
+  ],
+  "command": "npx setupkaro init my-app --template react-ts",
+  "folderStructure": [
+    "src/",
+    "  components/",
+    "  pages/",
+    "  App.tsx",
+    "  main.tsx",
+    "  index.css",
+    "  routes.tsx",
+    "public/",
+    "tests/",
+    "  App.test.tsx",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "package.json",
+    "tsconfig.json",
+    "tsconfig.node.json",
+    "vite.config.ts",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "eslint.config.js",
+    "prettier.config.js",
+    "vitest.config.ts",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Why Vite instead of Create React App?",
+      "a": "CRA is deprecated. Vite is faster, actively maintained, and the default for React projects."
+    },
+    {
+      "q": "Can I use this with Next.js instead?",
+      "a": "Use the `nextjs` template for Next.js 14 App Router. This template is for SPA/Vite projects."
+    },
+    {
+      "q": "Does it include state management (Redux, Zustand)?",
+      "a": "No — the template is unopinionated about state. Add your preferred library after generation."
+    },
+    {
+      "q": "What about testing — Vitest or Jest?",
+      "a": "Vitest (Vite-native, faster, Jest-compatible API). Configuration in vitest.config.ts."
+    }
+  ]
+}

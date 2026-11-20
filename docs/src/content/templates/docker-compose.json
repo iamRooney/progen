@@ -1,0 +1,50 @@
+{
+  "slug": "docker-compose",
+  "name": "Docker Compose",
+  "description": "Standard Postgres + Redis + Nginx stack",
+  "targetKeyword": "Docker Compose stack Postgres Redis Nginx Adminer Mailpit",
+  "metaTitle": "Docker Compose Stack — Postgres, Redis, Nginx, Adminer, Mailpit | setupkaro",
+  "metaDescription": "Generate a production-ready Docker Compose stack with Postgres, Redis, Nginx, Adminer, Mailpit, Watchtower, and a generated README in one command.",
+  "h1": "Docker Compose Stack with Postgres, Redis, Nginx & Tools",
+  "includes": [
+    "Postgres 16 with health checks and init scripts",
+    "Redis 7 with persistence",
+    "Nginx reverse proxy with SSL-ready config",
+    "Adminer (database UI) — single file, no config",
+    "Mailpit (email testing) — SMTP + web UI",
+    "Watchtower for automatic container updates",
+    "Named volumes for data persistence",
+    "Custom bridge network with service discovery",
+    "Generated README with service URLs and env vars"
+  ],
+  "command": "npx setupkaro init my-stack --template docker-compose",
+  "folderStructure": [
+    "nginx/",
+    "  nginx.conf",
+    "  conf.d/",
+    "postgres/",
+    "  init.sql",
+    ".github/workflows/ci.yml",
+    "docker-compose.yml",
+    ".env.example",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Is this for a specific application framework?",
+      "a": "No — it's a generic infrastructure stack. Use it as a base for any project needing Postgres, Redis, Nginx."
+    },
+    {
+      "q": "Does it include SSL/TLS certificates?",
+      "a": "Nginx config is SSL-ready. Add certs to nginx/conf.d/ and update docker-compose.yml for production."
+    },
+    {
+      "q": "Can I add my app service to this stack?",
+      "a": "Yes — add your service to docker-compose.yml and connect to the shared network. The README documents this."
+    },
+    {
+      "q": "What about production vs development?",
+      "a": "The stack works for both. For production, remove Adminer/Mailpit, enable Watchtower, and use external secrets."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "go-microservice",
+  "name": "Go Microservice",
+  "description": "Go with Gin, gRPC, Wire DI, testing, and Docker",
+  "targetKeyword": "Go microservice Gin gRPC Wire DI testify Docker CI",
+  "metaTitle": "Go Microservice Starter — Gin, gRPC, Wire, testify, Docker | setupkaro",
+  "metaDescription": "Generate a production-ready Go microservice with Gin HTTP, gRPC, Wire dependency injection, testify, golangci-lint, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "Go Microservice Starter with Gin, gRPC, Wire & Docker",
+  "includes": [
+    "Gin (HTTP) + gRPC (grpc-gateway) — single server, dual protocol",
+    "Google Wire for compile-time dependency injection",
+    "testify + testify/suite + mockery for mocks",
+    "golangci-lint (errcheck, govet, staticcheck, gosec, revive, etc.)",
+    "GitHub Actions: vet, lint, test -race, build, docker",
+    "Multi-stage Dockerfile (distroless/static) + docker-compose",
+    "go.mod with pinned dependencies and replace directives for Wire",
+    "Generated README with make targets and project structure"
+  ],
+  "command": "npx setupkaro init my-svc --template go-microservice",
+  "folderStructure": [
+    "cmd/",
+    "  server/",
+    "    main.go",
+    "    wire.go",
+    "    wire_gen.go",
+    "internal/",
+    "  handler/",
+    "  service/",
+    "  repository/",
+    "  config/",
+    "proto/",
+    "  service.proto",
+    "tests/",
+    "  integration_test.go",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "go.mod",
+    "go.sum",
+    "Makefile",
+    "golangci-lint.yml",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Why Wire for DI instead of manual wiring?",
+      "a": "Wire generates code at compile time — no runtime reflection, no startup overhead, and compile-time safety."
+    },
+    {
+      "q": "Does it include a database layer (GORM, sqlx)?",
+      "a": "The template shows a repository pattern interface. Add your preferred ORM/driver after generation."
+    },
+    {
+      "q": "What about configuration (Viper, envconfig)?",
+      "a": "The template uses a simple config struct with environment variables. Extend with Viper if needed."
+    },
+    {
+      "q": "Can I use this for a monolith instead of microservice?",
+      "a": "Yes — the structure works for any Go service. Remove the gRPC parts if HTTP-only."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "python-fastapi",
+  "name": "Python FastAPI",
+  "description": "FastAPI with SQLAlchemy, pytest, Docker, and GitHub Actions",
+  "targetKeyword": "FastAPI starter SQLAlchemy pytest Docker GitHub Actions",
+  "metaTitle": "FastAPI Starter — SQLAlchemy, pytest, Docker, CI/CD | setupkaro",
+  "metaDescription": "Generate a production-ready FastAPI project with async SQLAlchemy 2.0, Pydantic v2, pytest, Ruff, MyPy, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "FastAPI Starter with SQLAlchemy, pytest, Ruff & Docker",
+  "includes": [
+    "FastAPI + async SQLAlchemy 2.0 + Pydantic v2 (Settings management)",
+    "pytest + pytest-asyncio + httpx for async integration tests",
+    "Ruff (lint + format) + MyPy (strict type checking)",
+    "pre-commit hooks with ruff, mypy, pytest",
+    "GitHub Actions: lint, typecheck, test (with Postgres/Redis services), build",
+    "Multi-stage Dockerfile (non-root, python:3.12-slim) + docker-compose.yml (Postgres, Redis)",
+    "pyproject.toml with pinned dependencies and tool configs",
+    "Structured logging, lifespan events, health endpoints",
+    "Generated README with dev/prod commands and API docs links"
+  ],
+  "command": "npx setupkaro init my-api --template python-fastapi",
+  "folderStructure": [
+    "app/",
+    "  api/",
+    "  core/",
+    "  models/",
+    "  schemas/",
+    "  main.py",
+    "tests/",
+    "  conftest.py",
+    "  test_health.py",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "pyproject.toml",
+    "requirements.txt",
+    "ruff.toml",
+    "mypy.ini",
+    ".pre-commit-config.yaml",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Why async SQLAlchemy?",
+      "a": "FastAPI is async-native. Async SQLAlchemy 2.0 avoids blocking the event loop on DB calls."
+    },
+    {
+      "q": "Does it include authentication (JWT, OAuth)?",
+      "a": "No — the template provides a clean base. Add `fastapi-users` or `authlib` after generation."
+    },
+    {
+      "q": "What about database migrations?",
+      "a": "Alembic is not included by default. Run `pip install alembic && alembic init migrations` after generation."
+    },
+    {
+      "q": "Can I use this with SQLModel instead?",
+      "a": "Yes. SQLModel builds on SQLAlchemy + Pydantic. Replace the models/schemas after generation."
+    }
+  ]
+}

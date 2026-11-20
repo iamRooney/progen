@@ -1,0 +1,55 @@
+{
+  "slug": "rust-cli",
+  "name": "Rust CLI",
+  "description": "Rust CLI with clap, testing, and CI",
+  "targetKeyword": "Rust CLI starter Clap Tokio anyhow clippy cargo-nextest CI",
+  "metaTitle": "Rust CLI Starter — Clap, Tokio, anyhow, clippy, cargo-nextest | setupkaro",
+  "metaDescription": "Generate a production-ready Rust CLI with Clap 4 derive API, Tokio, anyhow, clippy pedantic, cargo-nextest, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "Rust CLI Starter with Clap 4, Tokio, anyhow & cargo-nextest",
+  "includes": [
+    "Clap 4 derive-based CLI with subcommands and arg validation",
+    "Tokio runtime (optional async commands)",
+    "anyhow + thiserror for ergonomic error handling",
+    "clippy (pedantic, nursery, cargo) + rustfmt",
+    "cargo-nextest (fast tests) + cargo-tarpaulin (coverage)",
+    "cargo-audit + cargo-deny for supply chain security",
+    "GitHub Actions: fmt, clippy, test (nextest), audit, build, docker",
+    "Distroless Dockerfile (static binary) + docker-compose",
+    "Generated README with cargo-binstall install instructions"
+  ],
+  "command": "npx setupkaro init my-cli --template rust-cli",
+  "folderStructure": [
+    "src/",
+    "  main.rs",
+    "  cli.rs",
+    "  commands/",
+    "  errors.rs",
+    "tests/",
+    "  integration_test.rs",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "Cargo.toml",
+    "rustfmt.toml",
+    "clippy.toml",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Why Clap derive instead of builder pattern?",
+      "a": "Derive API is more ergonomic, less boilerplate, and Clap 4's derive is feature-complete."
+    },
+    {
+      "q": "Does it include a TUI framework (ratatui, crossterm)?",
+      "a": "No — this is a standard CLI template. Add `ratatui` or `crossterm` after generation if needed."
+    },
+    {
+      "q": "What about cross-compilation?",
+      "a": "The README documents using `cross` for cross-compilation. GitHub Actions builds for linux/amd64, linux/arm64."
+    },
+    {
+      "q": "Can I use this for a library crate instead?",
+      "a": "This template is for binaries. For libraries, use `cargo new --lib` and add the lint/test config manually."
+    }
+  ]
+}

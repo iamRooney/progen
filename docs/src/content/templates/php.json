@@ -1,0 +1,46 @@
+{
+  "slug": "php",
+  "name": "PHP",
+  "description": "PHP project with Composer dependencies",
+  "targetKeyword": "PHP starter Composer PHPStan Docker CI",
+  "metaTitle": "PHP Starter Template — Composer, PHPStan, Docker, CI | setupkaro",
+  "metaDescription": "Generate a production-ready PHP project with Composer, PHPStan, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "PHP Starter with Composer, PHPStan & Docker",
+  "includes": [
+    "PHP 8.2+ with Composer 2",
+    "PHPStan (level 5) for static analysis",
+    "PHP-CS-Fixer for code formatting",
+    "PHPUnit for testing",
+    "GitHub Actions: cs-fixer, phpstan, phpunit, build",
+    "Dockerfile (PHP 8.3 CLI) + docker-compose.yml",
+    "composer.json with scripts for all tools",
+    "Generated README with commands and project structure"
+  ],
+  "command": "npx setupkaro init my-app --template php",
+  "folderStructure": [
+    "src/",
+    "tests/",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "composer.json",
+    "phpstan.neon",
+    ".php-cs-fixer.php",
+    "phpunit.xml",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Is this for a library or an application?",
+      "a": "It's a minimal PHP project structure suitable for both. Add your entry point (public/index.php for web, bin/console for CLI) after generation."
+    },
+    {
+      "q": "Does it include a framework (Symfony, Laravel)?",
+      "a": "No — this is a plain PHP template. Use the `laravel` template for Laravel, or add Symfony components after generation."
+    },
+    {
+      "q": "What about autoloading?",
+      "a": "PSR-4 autoloading is configured in composer.json (src/ -> App\\\\). Run `composer dump-autoload` after adding classes."
+    }
+  ]
+}

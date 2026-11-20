@@ -1,0 +1,27 @@
+{
+  "tagline": "Bootstrap production-ready projects in one npx command. Zero install. Multi-language.",
+  "repoDescription": "Zero-install CLI (npx setupkaro init) that generates complete, production-ready project templates with linting, testing, CI/CD, Docker, and a generated README. Templates: TypeScript, React, Next.js, Python FastAPI, Go, Rust, Java Spring, Laravel, PHP, Docker Compose. No telemetry. Extensible via JSON schema.",
+  "topics": [
+    "cli",
+    "boilerplate",
+    "scaffolding",
+    "project-generator",
+    "starter-template",
+    "npx",
+    "zero-install",
+    "developer-tools",
+    "typescript",
+    "react",
+    "nextjs",
+    "python-fastapi",
+    "golang",
+    "rust",
+    "java-spring",
+    "laravel",
+    "php",
+    "docker-compose",
+    "ci-cd",
+    "productivity"
+  ],
+  "instructions": "1. Go to GitHub repo Settings > General > Topics\n2. Add all 20 topics from the list above\n3. Update repo description with the text above\n4. Use tagline in social cards, README header, npm package"
+}

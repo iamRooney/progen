@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+      .title { font: 700 48px/1.2 'Inter', sans-serif; fill: var(--fg); }
+      .subtitle { font: 400 22px/1.4 'Inter', sans-serif; fill: var(--fg-muted); }
+      .terminal-font { font: 400 16px/1.5 'JetBrains Mono', monospace; }
+      .terminal-font-bold { font: 600 16px/1.5 'JetBrains Mono', monospace; }
+      .small { font: 400 14px/1.5 'Inter', sans-serif; fill: var(--fg-muted); }
+      .badge { font: 600 12px 'Inter', sans-serif; }
+      .check { fill: var(--terminal-green); }
+    </style>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#21262d" stroke-width="0.5"/>
+  </pattern>
+  <rect width="1280" height="640" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1280" height="4" fill="var(--accent)"/>
+
+  <!-- Logo + Title -->
+  <g transform="translate(80, 70)">
+    <!-- Logo mark -->
+    <g transform="translate(0, -5)">
+      <rect x="0" y="0" width="48" height="48" rx="10" fill="var(--accent)"/>
+      <text x="24" y="33" text-anchor="middle" font="700 28px 'Inter', sans-serif" fill="#fff">SK</text>
+    </g>
+    <text x="68" y="35" class="title">setupkaro</text>
+    <text x="68" y="70" class="subtitle">Bootstrap projects in seconds, not hours</text>
+  </g>
+
+  <!-- Terminal window -->
+  <g transform="translate(80, 150)">
+    <!-- Window chrome -->
+    <rect x="0" y="0" width="1120" height="340" rx="8" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+    <rect x="0" y="0" width="1120" height="40" rx="8" fill="#161b22"/>
+    <rect x="0" y="0" width="1120" height="40" rx="8" fill="none" stroke="#30363d" stroke-width="1"/>
+    <!-- Traffic lights -->
+    <circle cx="18" cy="20" r="6" fill="#ff5f57"/>
+    <circle cx="42" cy="20" r="6" fill="#ffbd2e"/>
+    <circle cx="66" cy="20" r="6" fill="#28ca42"/>
+    <!-- Terminal content -->
+    <g transform="translate(24, 60)">
+      <!-- Prompt -->
+      <text x="0" y="0" class="terminal-font">
+        <tspan fill="#7ee787">$</tspan>
+        <tspan fill="#ffa657"> npx</tspan>
+        <tspan fill="#fff"> setupkaro init my-app --template react-ts</tspan>
+      </text>
+      <!-- Output lines -->
+      <text x="0" y="36" class="terminal-font" fill="#8b949e">Initializing project: my-app</text>
+      <text x="0" y="58" class="terminal-font" fill="#8b949e">Using template: React + TypeScript</text>
+      <text x="0" y="90" class="terminal-font" fill="#8b949e">Copying files...</text>
+      <!-- Feature checkmarks -->
+      <g transform="translate(0, 120)">
+        <text x="0" y="0" class="terminal-font">
+          <tspan class="check">✓</tspan>
+          <tspan fill="#fff" dx="8"> TypeScript + ESLint + Prettier + Jest</tspan>
+        </text>
+        <text x="0" y="28" class="terminal-font">
+          <tspan class="check">✓</tspan>
+          <tspan fill="#fff" dx="8"> GitHub Actions CI/CD</tspan>
+        </text>
+        <text x="0" y="56" class="terminal-font">
+          <tspan class="check">✓</tspan>
+          <tspan fill="#fff" dx="8"> Docker + docker-compose</tspan>
+        </text>
+        <text x="0" y="84" class="terminal-font">
+          <tspan class="check">✓</tspan>
+          <tspan fill="#fff" dx="8"> Generated README</tspan>
+        </text>
+      </g>
+      <!-- Success -->
+      <text x="0" y="240" class="terminal-font-bold" fill="#3fb950">✨ Success! Project initialized.</text>
+      <!-- Next steps -->
+      <text x="0" y="280" class="terminal-font" fill="#8b949e">Next steps:</text>
+      <text x="16" y="304" class="terminal-font" fill="#ffa657">cd my-app</text>
+      <text x="16" y="328" class="terminal-font" fill="#ffa657">npm install</text>
+      <text x="16" y="352" class="terminal-font" fill="#ffa657">npm run dev</text>
+    </g>
+  </g>
+
+  <!-- Template tags -->
+  <g transform="translate(80, 510)">
+    <text x="0" y="0" class="small">Templates:</text>
+    <g transform="translate(0, 22)">
+      <g class="template-tag" transform="translate(0, 0)">
+        <rect x="0" y="0" width="110" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="55" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">TypeScript</text>
+      </g>
+      <g class="template-tag" transform="translate(120, 0)">
+        <rect x="0" y="0" width="70" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="35" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">React</text>
+      </g>
+      <g class="template-tag" transform="translate(200, 0)">
+        <rect x="0" y="0" width="75" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="37.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Next.js</text>
+      </g>
+      <g class="template-tag" transform="translate(285, 0)">
+        <rect x="0" y="0" width="80" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="40" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">FastAPI</text>
+      </g>
+      <g class="template-tag" transform="translate(375, 0)">
+        <rect x="0" y="0" width="45" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="22.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Go</text>
+      </g>
+      <g class="template-tag" transform="translate(430, 0)">
+        <rect x="0" y="0" width="50" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="25" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Rust</text>
+      </g>
+      <g class="template-tag" transform="translate(490, 0)">
+        <rect x="0" y="0" width="95" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="47.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Java Spring</text>
+      </g>
+      <g class="template-tag" transform="translate(595, 0)">
+        <rect x="0" y="0" width="65" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="32.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Laravel</text>
+      </g>
+      <g class="template-tag" transform="translate(670, 0)">
+        <rect x="0" y="0" width="45" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="22.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">PHP</text>
+      </g>
+      <g class="template-tag" transform="translate(725, 0)">
+        <rect x="0" y="0" width="125" height="28" rx="14" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+        <text x="62.5" y="19" text-anchor="middle" font="500 12px 'Inter', sans-serif" fill="#e6edf3">Docker Compose</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Footer badges -->
+  <g transform="translate(80, 575)">
+    <text x="0" y="0" class="small">github.com/iamRooney/setupkaro</text>
+    <text x="380" y="0" class="small">MIT License</text>
+    <g transform="translate(530, -5)">
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="#ff6b35"/>
+      <text x="70" y="16" text-anchor="middle" class="badge" fill="#fff">Made in Kerala</text>
+    </g>
+  </g>
+</svg>

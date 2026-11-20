@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=640">
+  <title>setupkaro Social Preview</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --fg: #e6edf3;
+      --fg-muted: #8b949e;
+      --accent: #f97583;
+      --accent-glow: #ff6b7a;
+      --terminal-green: #3fb950;
+      --border: #30363d;
+      --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+      --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --bg-card: #f6f8fa;
+        --fg: #1f2328;
+        --fg-muted: #656d76;
+        --accent: #cf222e;
+        --accent-glow: #cf222e;
+        --terminal-green: #2da44e;
+        --border: #d0d7de;
+      }
+    }
+
+    body {
+      width: 1280px;
+      height: 640px;
+      background: var(--bg);
+      font-family: var(--font-ui);
+      color: var(--fg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 0.5px, transparent 0.5px),
+        linear-gradient(90deg, var(--border) 0.5px, transparent 0.5px);
+      background-size: 40px 40px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 0 80px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* Top accent bar */
+    .accent-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+      z-index: 10;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 700 28px var(--font-ui);
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font: 700 48px/1.2 var(--font-ui);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font: 400 22px/1.4 var(--font-ui);
+      color: var(--fg-muted);
+      margin-top: 4px;
+    }
+
+    /* Terminal window */
+    .terminal {
+      flex: 1;
+      margin-top: 20px;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .terminal-header {
+      height: 40px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 8px;
+    }
+
+    .traffic-light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .traffic-light.red { background: #ff5f57; }
+    .traffic-light.yellow { background: #ffbd2e; }
+    .traffic-light.green { background: #28ca42; }
+
+    .terminal-body {
+      flex: 1;
+      padding: 24px;
+      font: 400 16px/1.6 var(--font-mono);
+      overflow: auto;
+      color: #e6edf3;
+    }
+
+    .prompt {
+      margin-bottom: 12px;
+    }
+
+    .prompt .dollar { color: #7ee787; }
+    .prompt .cmd { color: #ffa657; }
+    .prompt .args { color: #e6edf3; }
+
+    .output-line {
+      color: #8b949e;
+      margin-bottom: 6px;
+    }
+
+    .feature-list {
+      margin-top: 32px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      color: #e6edf3;
+    }
+
+    .check {
+      color: var(--terminal-green);
+      font-weight: 600;
+    }
+
+    .success {
+      margin-top: 24px;
+      font: 600 16px/1.5 var(--font-mono);
+      color: var(--terminal-green);
+    }
+
+    .next-steps {
+      margin-top: 16px;
+      color: #8b949e;
+    }
+
+    .next-step {
+      margin-left: 16px;
+      color: #ffa657;
+      margin-top: 8px;
+    }
+
+    /* Template tags */
+    .templates-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .template-tag {
+      background: #21262d;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font: 500 12px var(--font-ui);
+      color: var(--fg);
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-bottom: 20px;
+      font: 400 14px var(--font-ui);
+      color: var(--fg-muted);
+    }
+
+    .badge-kerala {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      color: #fff;
+      font: 600 12px var(--font-ui);
+      padding: 4px 16px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* Export button (hidden in export) */
+    .export-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font: 600 14px var(--font-ui);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .export-btn:hover { filter: brightness(1.1); }
+
+    @media print {
+      .export-btn { display: none; }
+      body { height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">SK</div>
+      <div>
+        <h1 class="title">setupkaro</h1>
+        <p class="subtitle">Bootstrap projects in seconds, not hours</p>
+      </div>
+    </header>
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="traffic-lights">
+          <span class="traffic-light red"></span>
+          <span class="traffic-light yellow"></span>
+          <span class="traffic-light green"></span>
+        </div>
+      </div>
+      <div class="terminal-body">
+        <div class="prompt">
+          <span class="dollar">$</span>
+          <span class="cmd"> npx setupkaro init my-app</span>
+          <span class="args"> --template react-ts</span>
+        </div>
+        <div class="output-line">Initializing project: my-app</div>
+        <div class="output-line">Using template: React + TypeScript</div>
+        <div class="output-line">Copying files...</div>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <span>TypeScript + ESLint + Prettier + Jest</span>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <span>GitHub Actions CI/CD</span>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <span>Docker + docker-compose</span>
+          </div>
+          <div class="feature-item">
+            <span class="check">✓</span>
+            <span>Generated README</span>
+          </div>
+        </div>
+
+        <div class="success">✨ Success! Project initialized.</div>
+
+        <div class="next-steps">Next steps:</div>
+        <div class="next-step">cd my-app</div>
+        <div class="next-step">npm install</div>
+        <div class="next-step">npm run dev</div>
+      </div>
+    </div>
+
+    <!-- Template tags -->
+    <p style="margin-top: 16px; color: var(--fg-muted); font-size: 14px;">Templates:</p>
+    <div class="templates-row">
+      <span class="template-tag">TypeScript</span>
+      <span class="template-tag">React</span>
+      <span class="template-tag">Next.js</span>
+      <span class="template-tag">FastAPI</span>
+      <span class="template-tag">Go</span>
+      <span class="template-tag">Rust</span>
+      <span class="template-tag">Java Spring</span>
+      <span class="template-tag">Laravel</span>
+      <span class="template-tag">PHP</span>
+      <span class="template-tag">Docker Compose</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>github.com/iamRooney/setupkaro</span>
+      <span>MIT License</span>
+      <span class="badge-kerala">Made in Kerala</span>
+    </footer>
+  </div>
+
+  <button class="export-btn" onclick="exportPNG()">Export PNG (1280×640)</button>
+
+  <script>
+    async function exportPNG() {
+      const btn = document.querySelector('.export-btn');
+      btn.textContent = 'Rendering...';
+      btn.disabled = true;
+
+      try {
+        // Use html2canvas if available, otherwise instruct manual
+        if (typeof html2canvas !== 'undefined') {
+          const canvas = await html2canvas(document.body, {
+            width: 1280,
+            height: 640,
+            scale: 2,
+            useCORS: true,
+            backgroundColor: getComputedStyle(document.body).backgroundColor,
+          });
+          canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'setupkaro-social-preview.png';
+            a.click();
+            URL.revokeObjectURL(url);
+            btn.textContent = 'Exported!';
+            setTimeout(() => { btn.textContent = 'Export PNG (1280×640)'; btn.disabled = false; }, 2000);
+          }, 'image/png');
+        } else {
+          alert('To export PNG:\n1. Open this file in Chrome/Edge\n2. Right-click → "Save as image" or use DevTools device toolbar (1280×640)\n3. Or run: npx playwright screenshot social-preview.html output.png --viewport-size=1280,640');
+          btn.textContent = 'Export PNG (1280×640)';
+          btn.disabled = false;
+        }
+      } catch (e) {
+        console.error(e);
+        btn.textContent = 'Error - try manually';
+        btn.disabled = false;
+      }
+    }
+  </script>
+  <!-- Include html2canvas for one-click export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+</html>

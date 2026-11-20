@@ -1,0 +1,65 @@
+{
+  "slug": "nextjs",
+  "name": "Next.js",
+  "description": "Next.js 14 App Router with TS and Tailwind",
+  "targetKeyword": "Next.js 14 starter App Router TypeScript Tailwind Docker CI",
+  "metaTitle": "Next.js 14 Starter — App Router, TypeScript, Tailwind, Docker | setupkaro",
+  "metaDescription": "Generate a production-ready Next.js 14 App Router project with TypeScript, Tailwind CSS, Playwright E2E tests, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "Next.js 14 Starter with App Router, TypeScript, Tailwind & Docker",
+  "includes": [
+    "Next.js 14 (App Router) + TypeScript 5 (strict)",
+    "Tailwind CSS 3 + PostCSS",
+    "ESLint (next/core-web-vitals, typescript-eslint) + Prettier",
+    "Playwright for E2E testing + Vitest for unit tests",
+    "Husky + lint-staged",
+    "GitHub Actions: typecheck, lint, test (unit + e2e), build",
+    "Multi-stage Dockerfile (standalone output) + docker-compose",
+    "next.config.js with security headers and image optimization",
+    "Generated README with deployment guides (Vercel, Docker, static export)"
+  ],
+  "command": "npx setupkaro init my-app --template nextjs",
+  "folderStructure": [
+    "src/",
+    "  app/",
+    "    layout.tsx",
+    "    page.tsx",
+    "    globals.css",
+    "  components/",
+    "  lib/",
+    "public/",
+    "tests/",
+    "  e2e/",
+    "  unit/",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "package.json",
+    "tsconfig.json",
+    "next.config.js",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "eslint.config.js",
+    "prettier.config.js",
+    "playwright.config.ts",
+    "vitest.config.ts",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Does it use the Pages Router or App Router?",
+      "a": "App Router (Next.js 14+ default). The template uses Server Components by default."
+    },
+    {
+      "q": "Can I deploy to Vercel with this?",
+      "a": "Yes — the generated project works on Vercel out of the box. The Dockerfile is for self-hosted/container deployments."
+    },
+    {
+      "q": "What about middleware, API routes, server actions?",
+      "a": "The template includes examples in src/app/api/ and src/middleware.ts. Extend as needed."
+    },
+    {
+      "q": "Does it include a database layer (Prisma, Drizzle)?",
+      "a": "No — the template is unopinionated on data. Add Prisma/Drizzle after generation."
+    }
+  ]
+}

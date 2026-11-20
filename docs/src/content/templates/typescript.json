@@ -1,0 +1,49 @@
+{
+  "slug": "typescript",
+  "name": "TypeScript",
+  "description": "Node.js + TypeScript with ESLint, Prettier, and Jest",
+  "targetKeyword": "TypeScript starter with ESLint Prettier Jest Docker CI",
+  "metaTitle": "TypeScript Starter Template — ESLint, Prettier, Jest, Docker | setupkaro",
+  "metaDescription": "Generate a production-ready TypeScript Node.js project with ESLint, Prettier, Jest, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "TypeScript Starter with ESLint, Prettier, Jest & Docker",
+  "includes": [
+    "Node.js 20+ with TypeScript 5 (strict mode)",
+    "ESLint with typescript-eslint and Prettier integration",
+    "Jest with ts-jest for unit testing",
+    "Husky + lint-staged for pre-commit hooks",
+    "GitHub Actions: typecheck, lint, test, build",
+    "Multi-stage Dockerfile (non-root, distroless-ready)",
+    "docker-compose.yml for local development",
+    "Generated README with scripts and folder structure"
+  ],
+  "command": "npx setupkaro init my-app --template typescript",
+  "folderStructure": [
+    "src/",
+    "  index.ts",
+    "tests/",
+    "  index.test.ts",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "package.json",
+    "tsconfig.json",
+    "eslint.config.js",
+    "prettier.config.js",
+    "jest.config.js",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "What Node.js version is required?",
+      "a": "Node.js 18+ (uses native test runner and modern TypeScript features). The template specifies Node 20 in Dockerfile and CI."
+    },
+    {
+      "q": "Can I add Express/Fastify to this template?",
+      "a": "Yes. The template is a minimal TypeScript setup. Add your framework of choice after generation: `npm install express @types/express` or `npm install fastify`."
+    },
+    {
+      "q": "Does it support ESM or CommonJS?",
+      "a": "ESM by default (\"type\": \"module\" in package.json). For CommonJS, change the package.json and tsconfig.json module settings."
+    }
+  ]
+}

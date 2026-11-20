@@ -1,0 +1,59 @@
+{
+  "slug": "java-spring",
+  "name": "Java Spring Boot",
+  "description": "Spring Boot with Maven, testing, and Docker",
+  "targetKeyword": "Spring Boot 3 starter Maven JUnit Testcontainers Spotless Docker CI",
+  "metaTitle": "Spring Boot 3 Starter — Maven, JUnit 5, Testcontainers, Docker | setupkaro",
+  "metaDescription": "Generate a production-ready Spring Boot 3 project with Java 21, Maven, JUnit 5, Testcontainers, Spotless, Checkstyle, GitHub Actions CI/CD, Docker, and a generated README in one command.",
+  "h1": "Spring Boot 3 Starter with Maven, JUnit 5, Testcontainers & Docker",
+  "includes": [
+    "Spring Boot 3.2 + Java 21 + Maven Wrapper",
+    "JUnit 5 + AssertJ + Testcontainers (Postgres for integration tests)",
+    "Spotless (Google Java Format) + Checkstyle + PMD",
+    "Spring Boot 3 virtual threads (preview) + structured logging",
+    "GitHub Actions: fmt, lint, test (with Testcontainers), build, docker",
+    "Multi-stage Dockerfile (Eclipse Temurin JRE 21, non-root) + docker-compose",
+    "Maven properties for dependency versions + dependency management",
+    "Generated README with profiles and Maven commands"
+  ],
+  "command": "npx setupkaro init my-app --template java-spring",
+  "folderStructure": [
+    "src/",
+    "  main/",
+    "    java/com/setupkaro/",
+    "    resources/",
+    "      application.yml",
+    "      application-docker.yml",
+    "  test/",
+    "    java/com/setupkaro/",
+    ".github/workflows/ci.yml",
+    "Dockerfile",
+    "docker-compose.yml",
+    "pom.xml",
+    "mvnw",
+    "mvnw.cmd",
+    ".mvn/wrapper/maven-wrapper.properties",
+    "checkstyle.xml",
+    "pmd-rules.xml",
+    "spotless.plugin.xml",
+    "README.md"
+  ],
+  "faq": [
+    {
+      "q": "Why Maven instead of Gradle?",
+      "a": "Maven is more common in enterprise Spring teams. The wrapper ensures consistent builds."
+    },
+    {
+      "q": "Does it include Spring Security / OAuth2?",
+      "a": "No — the template is a clean REST API base. Add `spring-boot-starter-security` after generation."
+    },
+    {
+      "q": "What about Spring Data JPA / Hibernate?",
+      "a": "The template includes the dependencies. Entity/repository examples are in src/main/java."
+    },
+    {
+      "q": "Can I use this with GraalVM native images?",
+      "a": "Spring Boot 3 supports GraalVM. Add the native profile and build with `./mvnw -Pnative native:compile`."
+    }
+  ]
+}
