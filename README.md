@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ setupkaro
+#  setupkaro
 
 ### Bootstrap projects in seconds, not hours.
 
@@ -21,7 +21,7 @@ npx setupkaro init my-app --template react-ts
 
 ---
 
-## 🤔 Why setupkaro?
+##  Why setupkaro?
 
 Starting a new project usually goes like this: clone a boilerplate, spend two hours fixing imports, configure the linter, wire up CI, write a README. By the time you're ready to code, the idea has gone cold.
 
@@ -53,7 +53,7 @@ npx setupkaro list
 
 ---
 
-## ✨ Features
+##  Features
 
 | | Feature | What you get |
 |---|---|---|
@@ -70,7 +70,7 @@ npx setupkaro list
 
 ---
 
-## 📦 Templates
+##  Templates
 
 | Template | Stack |
 |----------|-------|
@@ -86,7 +86,7 @@ npx setupkaro list
 
 ---
 
-## 🧭 How it works
+##  How it works
 
 ```
   setupkaro init my-app --template react-ts
@@ -97,7 +97,7 @@ npx setupkaro list
   3. Files are generated    →  code, configs, CI, Docker, README
           │
           ▼
-  ✅ Ready to run. Start coding.
+   Ready to run. Start coding.
 ```
 
 Everything runs locally on your machine.
@@ -127,7 +127,7 @@ The core CLI stays free and open source. Paid tiers are planned for teams that n
 
 --- -->
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome, whether it's a new template, a bug fix, or a docs tweak. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for:
 
