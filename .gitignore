@@ -8,3 +8,9 @@ build/
 *.tgz
 .idea/
 .vscode/
+
+# Docs site build artifacts
+docs/.next/
+docs/out/
+docs/node_modules/
+docs/.next-env.d.ts
