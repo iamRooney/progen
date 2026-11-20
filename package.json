@@ -1,6 +1,6 @@
 {
   "name": "setupkaro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-install CLI to generate production-ready project templates in one command. Includes linting, testing, CI/CD, Docker, and README. Templates: TypeScript, React, Next.js, Python FastAPI, Go, Rust, Java Spring, Laravel, PHP, Docker Compose. No telemetry.",
   "type": "module",
   "main": "index.js",
